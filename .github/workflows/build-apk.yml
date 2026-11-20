@@ -1,31 +1,24 @@
-
 name: Build JARVIS Android APK
-
 on:
   workflow_dispatch:
   push:
     branches:
       - main
-
 jobs:
   build:
     runs-on: ubuntu-22.04
-
-    steps:
+  steps:
       - name: Checkout Project
         uses: actions/checkout@v4
-
-      - name: Setup Java
+ - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
-
-      - name: Setup Python
+    - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
       - name: Install Dependencies
         run: |
           sudo apt-get update
@@ -37,14 +30,12 @@ jobs:
             pkg-config zlib1g-dev
           python -m pip install --upgrade pip
           pip install cython==0.29.36 buildozer
-
-      - name: Build APK
+ - name: Build APK
         run: buildozer android debug
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: JARVIS-APK
-          path: bin/*.apk
-          if-no-files-found: error
+- name: Upload APK
+uses: actions/upload-artifact@v4
+ with:
+ name: JARVIS-APK
+path: bin/*.apk
+ if-no-files-found: error
 
